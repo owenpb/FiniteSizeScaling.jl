@@ -2,5 +2,5 @@ using FiniteSizeScaling
 using Test
 
 @testset "FiniteSizeScaling.jl" begin
-    # Write your tests here.
+    @test 1 < 2
 end
