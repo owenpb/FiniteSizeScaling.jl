@@ -11,14 +11,14 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://owenpb.github.io/FiniteSizeScaling.jl",
-        assets=String[],
+        assets=String[]
     ),
     pages=[
         "Home" => "index.md",
-    ],
+    ]
 )
 
 deploydocs(;
     repo="github.com/owenpb/FiniteSizeScaling.jl",
-    devbranch="main",
+    devbranch="main"
 )
