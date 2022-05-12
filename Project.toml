@@ -3,8 +3,12 @@ uuid = "fd16a862-e713-4e98-8e8f-513553425ee0"
 authors = ["Owen Bradley"]
 version = "0.1.0"
 
+[deps]
+Polynomials = "f27b6e38-b328-58d1-80ce-0feddd5e7a45"
+
 [compat]
 julia = "1.6"
+Polynomials = "3.0.0"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
