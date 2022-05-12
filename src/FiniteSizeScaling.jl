@@ -1,16 +1,21 @@
 module FiniteSizeScaling
 
 using Polynomials
+using Plots
+using LaTeXStrings
 
 export fss_one_var
 export fss_two_var
+export plot_data
+export plot_residuals
+export contour_plot
 
 
 function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights=nothing, norm_y=false)
 
     nL = length(data)
 
-    res_vals = AbstractFloat[]
+    residuals = AbstractFloat[]
 
     v1_vals = range(v1i, v1f, length=n1)
 
@@ -49,11 +54,11 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
             res = sum((f.(Xp_all) - Yp_all) .^ 2)
         end
 
-        push!(res_vals, res)
+        push!(residuals, res)
 
     end
 
-    min_res, min_res_index = findmin(res_vals)
+    min_res, min_res_index = findmin(residuals)
     best_v1 = v1_vals[min_res_index]
 
     scaled_data_array = AbstractArray[]
@@ -84,7 +89,7 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
     print("Smallest residual ")
     print(min_res)
 
-    return scaled_data_array, res_vals, min_res, best_v1
+    return scaled_data_array, residuals, min_res, best_v1
 
 end
 
@@ -92,7 +97,7 @@ end
 function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights=nothing, norm_y=false)
 
     nL = length(data)
-    res_vals = Array{Float64}(undef, (n2, n1))
+    residuals = Array{Float64}(undef, (n2, n1))
     v1_vals = range(v1i, v1f, length=n1)
     v2_vals = range(v2i, v2f, length=n2)
     index1 = 0
@@ -138,12 +143,12 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
                 res = sum((f.(Xp_all) - Yp_all) .^ 2)
             end
 
-            res_vals[index2, index1] = res
+            residuals[index2, index1] = res
 
         end
     end
 
-    min_res_info = findmin(res_vals)
+    min_res_info = findmin(residuals)
     min_res = min_res_info[1]
     min_res_index1 = min_res_info[2][2]
     min_res_index2 = min_res_info[2][1]
@@ -179,7 +184,7 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
     print("Smallest residual: ")
     print(min_res)
 
-    return scaled_data_array, res_vals, min_res, best_v1, best_v2
+    return scaled_data_array, residuals, min_res, best_v1, best_v2
 
 end
 
@@ -196,19 +201,19 @@ function plot_data(data::AbstractArray; xlabel=L"$x$",
 
     if length(data[1]) == 4
 
-        plot(data[1][1], data[1][2], yerr=data[1][3], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto, palette=:tab10)
+        scatter(data[1][1], data[1][2], yerr=data[1][3], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, markerstrokecolor=:auto, palette=:tab10)
         for i in 1:1:(length(data)-1)
-            plot!(data[i+1][1], data[i+1][2], yerr=data[i+1][3], label=L"L= " * latexstring(last(data[i+1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
+            scatter!(data[i+1][1], data[i+1][2], yerr=data[i+1][3], label=L"L= " * latexstring(last(data[i+1])), markershape=markershape, markersize=markersize, markerstrokecolor=:auto)
         end
 
     else
-        plot(data[1][1], data[1][2], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
+        scatter(data[1][1], data[1][2], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
         for i in 1:1:(length(data)-1)
-            plot!(data[i+1][1], data[i+1][2], label=L"L= " * latexstring(last(data[i+1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
+            scatter!(data[i+1][1], data[i+1][2], label=L"L= " * latexstring(last(data[i+1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
         end
     end
 
-    plot!(legend=legend, legendfontsize=legendfontsize, framestyle=:box, margin=3Plots.mm, size=size)
+    scatter!(legend=legend, legendfontsize=legendfontsize, framestyle=:box, margin=3Plots.mm, size=size)
     xaxis!(xlabel=xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel=ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
 
@@ -225,24 +230,25 @@ function plot_residuals(residuals::AbstractVector; v1i::Real, v1f::Real, n1::Int
     markersize=4, linewidth=2,
     linecolor=:black, size=(600, 400))
 
-    plot(range(v1i, v1f, length=n1), res_vals, legend=false, framestyle=:box, linewidth=linewidth, linecolor=linecolor, markershape=markershape, markersize=markersize, markercolor=markercolor, margin=3Plots.mm, size=size)
+    plot(range(v1i, v1f, length=n1), residuals, legend=false, framestyle=:box, linewidth=linewidth, linecolor=linecolor, markershape=markershape, markersize=markersize, markercolor=markercolor, margin=3Plots.mm, size=size)
     xaxis!(xlabel=xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel=ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
 
 end
 
 
-function contour_plot(res_vals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill=true, logspace=true, xlabel=L"$v_1$",
+function contour_plot(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill=true, logspace=true, xlabel=L"$v_1$",
     ylabel=L"$v_2$",
     xguidefontsize=16,
-    yguidefontsize=16, color=:algae,
+    yguidefontsize=16,
+    color=:algae,
     markershape=:star4,
     markersize=6,
     markercolor=:yellow, size=(800, 500))
 
-    min_res_info = findmin(res_vals)
+    min_res_info = findmin(residuals)
     min_res = min_res_info[1]
-    max_res = findmax(res_vals)[1]
+    max_res = findmax(residuals)[1]
     min_res_index1 = min_res_info[2][2]
     min_res_index2 = min_res_info[2][1]
 
@@ -280,7 +286,7 @@ function contour_plot(res_vals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2
     best_v1 = v1_vals[min_res_index1]
     best_v2 = v2_vals[min_res_index2]
 
-    contour(v1_vals, v2_vals, res_vals, levels=nl, color=color, fill=fill, framestyle=:box, margin=3Plots.mm, size=size)
+    contour(v1_vals, v2_vals, residuals, levels=nl, color=color, fill=fill, framestyle=:box, margin=3Plots.mm, size=size)
     scatter!([best_v1], [best_v2], legend=false, markershape=markershape, markersize=markersize, markercolor=markercolor)
     xaxis!(xlabel, xguidefontsize=xguidefontsize)
     yaxis!(ylabel, yguidefontsize=xguidefontsize)
