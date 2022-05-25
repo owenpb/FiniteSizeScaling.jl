@@ -11,7 +11,7 @@ export plot_residuals
 export contour_plot
 
 
-function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights=nothing, norm_y=false)
+function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights=nothing, norm_y=false, verbose=true)
 
     nL = length(data)
 
@@ -83,18 +83,22 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
     end
 
-    print("Optimal v1 value: ")
-    print(best_v1)
-    println(" ")
-    print("Smallest residual ")
-    print(min_res)
+    if verbose == true
+        print("Optimal v1 value: ")
+        print(best_v1)
+        println(" ")
+        print("Smallest residual ")
+        print(min_res)
+        println(" ")
+        println(" ")
+    end
 
     return scaled_data_array, residuals, min_res, best_v1
 
 end
 
 
-function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights=nothing, norm_y=false)
+function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights=nothing, norm_y=false, verbose=true)
 
     nL = length(data)
     residuals = Array{Float64}(undef, (n2, n1))
@@ -177,12 +181,16 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
     end
 
-    print("Optimal v1 value: ")
-    println(best_v1)
-    print("Optimal v2 value: ")
-    println(best_v2)
-    print("Smallest residual: ")
-    print(min_res)
+    if verbose == true
+        print("Optimal v1 value: ")
+        println(best_v1)
+        print("Optimal v2 value: ")
+        println(best_v2)
+        print("Smallest residual: ")
+        print(min_res)
+        println(" ")
+        println(" ")
+    end
 
     return scaled_data_array, residuals, min_res, best_v1, best_v2
 
