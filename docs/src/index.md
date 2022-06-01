@@ -4,7 +4,7 @@ CurrentModule = FiniteSizeScaling
 
 # FiniteSizeScaling
 
-Documentation for [FiniteSizeScaling](https://github.com/owenpb/FiniteSizeScaling.jl): a Julia package for finding optimized values of critical exponents and phase transition temperatures given data for finite-size lattices.
+Documentation for [FiniteSizeScaling](https://github.com/owenpb/FiniteSizeScaling.jl): a Julia package for finite-size scaling (FSS). Uses FSS to find optimized values of critical exponents and phase transition temperatures given data for finite-size lattices.
 
 ```@index
 ```
