@@ -35,9 +35,7 @@ Performs finite size scaling of one parameter v1.
 - `residuals`: An array of length n1 with values of the sum of squared residuals for each value of v1 used in the search.
 - `min_res`: The smallest value of the sum of squared residuals found in the search.
 - `best_v1`: The optimal value of v1 found in the search.
-
 """
-
 function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights::AbstractVector=nothing, norm_y::Bool=false, verbose::Bool=true)
 
     nL = length(data)
@@ -153,9 +151,7 @@ Performs finite size scaling of one parameter v1.
 - `min_res`: The smallest value of the sum of squared residuals found in the search.
 - `best_v1`: The optimal value of v1 found in the search.
 - `best_v2`: The optimal value of v2 found in the search.
-
 """
-
 function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights=nothing, norm_y=false, verbose=true)
 
     nL = length(data)
@@ -262,22 +258,20 @@ Plots the data (either the unscaled data, or the optimal collapse of scaled data
 
 # Arguments:
 
-- `data::AbstractArray`: An array of input data, where each element is an array of [X, Y, E, L] data for a given lattice size (error E optional). The length of `data` should equal the number of lattice sizes. This could be the scaled_data_array returned by fss_one_var or fss_two_var, giving a plot of the best data collapse.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"\$x\$".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"\$y\$". 
-- `xguidefontsize::Real`: Font size for x-axis label
-- `yguidefontsize::Real`: Font size for y-axis label
-- `xtickfontsize::Real`: Font size for x-axis ticks
-- `ytickfontsize::Real`: Font size for y-axis ticks
-- `legend::Symbol`: Position of legend. Can be any legend Symbol defined in Plots.jl.
+- `data::AbstractArray`: An array of input data, where each element is an array of [X, Y, E, L] data for a given lattice size (error E optional). The length of `data` should equal the number of lattice sizes. This could be the `scaled_data_array` returned by `fss_one_var` or `fss_two_var`, giving a plot of the best data collapse.
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xguidefontsize::Real`: Font size for x-axis label.
+- `yguidefontsize::Real`: Font size for y-axis label.
+- `xtickfontsize::Real`: Font size for x-axis ticks.
+- `ytickfontsize::Real`: Font size for y-axis ticks.
+- `legend::Symbol`: Position of legend. Can be any legend Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `legendfontsize::Real`: Font size used in legend.
-- `markershape::Symbol`: Shape of markers used in scatter plot. Can be any markershape Symbol defined in Plots.jl.
+- `markershape::Symbol`: Shape of markers used in scatter plot. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `markersize::Real`: Size of markers used in scatter plot.
-- `palette::Symbol`: Color scheme used in scatter plot. Symbol can be any color scheme supported by Plots.jl.
+- `palette::Symbol`: Color scheme used in scatter plot. Symbol can be any color scheme supported by [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `size::Tuple`: Dimensions of scatter plot drawn.
-
 """
-
 function plot_data(data::AbstractArray; xlabel::AbstractString=L"$x$",
     ylabel::AbstractString=L"$y$",
     xguidefontsize::Real=16,
@@ -313,29 +307,27 @@ end
 """
     plot_residuals(data::AbstractArray; xlabel::AbstractString=L"\$x\$", ylabel::AbstractString=L"\$y\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, legend::Symbol=:topleft, legendfontsize::Real=10, markershape::Symbol=:circle, markersize::Real=4, palette::Symbol=:tab10, size::Tuple=(600,400))
 
-Plots the sum of squared residuals (calculated with fss_one_var) as a function of v1, after one-parameter scaling has been performed. 
+Plots the sum of squared residuals (calculated with `fss_one_var``) as a function of v1, after one-parameter scaling has been performed. 
 
 # Arguments:
 
-- `residuals::AbstractVector`: A vector containing values of the sum of squared residuals for each v1 value used in the optimization search. This is the vector `residuals` returned by the fss_one_var function.
-- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function fss_one_var.
-- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function fss_one_var.
-- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function fss_one_var.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"\$x\$".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"\$y\$". 
-- `xguidefontsize::Real`: Font size for x-axis label
-- `yguidefontsize::Real`: Font size for y-axis label
-- `xtickfontsize::Real`: Font size for x-axis ticks
-- `ytickfontsize::Real`: Font size for y-axis ticks
-- `markershape::Symbol`: Shape of markers used in plot. Can be any markershape Symbol defined in Plots.jl.
-- `markercolor::Symbol`: Color of markers used in plot. Can be markercolor Symbol defined in Plots.jl.
+- `residuals::AbstractVector`: A vector containing values of the sum of squared residuals for each v1 value used in the optimization search. This is the vector `residuals` returned by the `fss_one_var` function.
+- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
+- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
+- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xguidefontsize::Real`: Font size for x-axis label.
+- `yguidefontsize::Real`: Font size for y-axis label.
+- `xtickfontsize::Real`: Font size for x-axis ticks.
+- `ytickfontsize::Real`: Font size for y-axis ticks.
+- `markershape::Symbol`: Shape of markers used in plot. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `markercolor::Symbol`: Color of markers used in plot. Can be markercolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `markersize::Real`: Size of markers used in plot.
 - `linewidth::Real`: Width of line used in plot.
-- `linecolor::Symbol`: Color of line used in plot. Symbol can be any linecolor Symbol defined in Plots.jl.
+- `linecolor::Symbol`: Color of line used in plot. Symbol can be any linecolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `size::Tuple`: Dimensions of scatter plot drawn.
-
 """
-
 function plot_residuals(residuals::AbstractVector; v1i::Real, v1f::Real, n1::Int, xlabel::AbstractString=L"$v_1$",
     ylabel::AbstractString="Sum of Squared Residuals",
     xguidefontsize::Real=16,
@@ -356,31 +348,30 @@ end
 """
     contour_plot(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"\$v_1\$", ylabel::AbstractString=L"\$v_2\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, color::Symbol=:algae, markershape::Symbol=:star4, markersize::Real=6, markercolor::Symbol=:yellow, size::Tuple=(800,500))
 
-Produces a contour plot showing the sum of squared residuals as a function of v1 (x-axis) and v2 (y-axis) after two-parameter scaling has been performed using fss_two_var.
+Produces a contour plot showing the sum of squared residuals as a function of v1 (x-axis) and v2 (y-axis) after two-parameter scaling has been performed using `fss_two_var`.
 The optimal values of v1 and v2 are indicated on the plot.    
 
 # Arguments:
 
--`residuals::AbstractArray`: Two-dimensional array of residual values obtained after two-parameter fit has been performed. This is the array `residuals` returned by the function fss_two_var.
-- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function fss_two_var.
-- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function fss_two_var.
-- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function fss_two_var.
+- `residuals::AbstractArray`: Two-dimensional array of residual values obtained after two-parameter fit has been performed. This is the array `residuals` returned by the function `fss_two_var`.
+- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
+- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
+- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
 - `levels`: Can be an integer or an array. If an integer, this specfies the number of contour lines drawn. If an array, contour lines are drawn at the exact levels specified in the array.
 - `fill::Bool`: If true, fills in the contour plot with solid color.
 - `logspace::Bool` If true, contour lines are spaced logarithmically. Recommended if a higher density of contour lines near the minima is desired.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"\$x\$".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"\$y\$". 
-- `xguidefontsize::Real`: Font size for x-axis label
-- `yguidefontsize::Real`: Font size for y-axis label
-- `xtickfontsize::Real`: Font size for x-axis ticks
-- `ytickfontsize::Real`: Font size for y-axis ticks
-- `color::Symbol`: Color scheme used in contour plot. Symbol can be any color scheme supported by Plots.jl.
-- `markershape::Symbol`: Shape of marker used to pinpoint the optimal parameter values. Can be any markershape Symbol defined in Plots.jl.
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xguidefontsize::Real`: Font size for x-axis label.
+- `yguidefontsize::Real`: Font size for y-axis label.
+- `xtickfontsize::Real`: Font size for x-axis ticks.
+- `ytickfontsize::Real`: Font size for y-axis ticks.
+- `color::Symbol`: Color scheme used in contour plot. Symbol can be any color scheme supported by [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `markershape::Symbol`: Shape of marker used to pinpoint the optimal parameter values. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `markersize::Real`: Size of marker used to pinpoint the optimal parameter values. 
-- `markercolor::Symbol`: Color of marker used to pinpoint the optimal parameter values. Can be any markercolor Symbol defined in Plots.jl.
+- `markercolor::Symbol`: Color of marker used to pinpoint the optimal parameter values. Can be any markercolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `size::Tuple`: Size of contour plot drawn.
 """
-
 function contour_plot(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"$v_1$",
     ylabel::AbstractString=L"$v_2$",
     xguidefontsize::Real=16,
