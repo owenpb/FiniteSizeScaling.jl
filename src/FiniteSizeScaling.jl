@@ -14,7 +14,7 @@ export contour_plot
 """
     fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights::AbstractArray=nothing, norm_y::Bool=false, verbose::Bool=true)
 
-Performs finite size scaling of one parameter v1.
+Performs finite size scaling with one optimized parameter v1.
 
 # Arguments:
 
@@ -126,7 +126,7 @@ end
 """
     fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights::AbstractArray=nothing, norm_y::Bool=false, verbose::Bool=true)
 
-Performs finite size scaling of one parameter v1.
+Performs finite size scaling with two optimized parameters v1 and v2.
 
 # Arguments:
 
@@ -259,8 +259,8 @@ Plots the data (either the unscaled data, or the optimal collapse of scaled data
 # Arguments:
 
 - `data::AbstractArray`: An array of input data, where each element is an array of [X, Y, E, L] data for a given lattice size (error E optional). The length of `data` should equal the number of lattice sizes. This could be the `scaled_data_array` returned by `fss_one_var` or `fss_two_var`, giving a plot of the best data collapse.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"y". 
 - `xguidefontsize::Real`: Font size for x-axis label.
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
@@ -307,7 +307,7 @@ end
 """
     plot_residuals(data::AbstractArray; xlabel::AbstractString=L"\$x\$", ylabel::AbstractString=L"\$y\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, legend::Symbol=:topleft, legendfontsize::Real=10, markershape::Symbol=:circle, markersize::Real=4, palette::Symbol=:tab10, size::Tuple=(600,400))
 
-Plots the sum of squared residuals (calculated with `fss_one_var``) as a function of v1, after one-parameter scaling has been performed. 
+Plots the sum of squared residuals (calculated with `fss_one_var`) as a function of v1, after one-parameter scaling has been performed. 
 
 # Arguments:
 
@@ -315,8 +315,8 @@ Plots the sum of squared residuals (calculated with `fss_one_var``) as a functio
 - `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
 - `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
 - `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"y". 
 - `xguidefontsize::Real`: Font size for x-axis label.
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
@@ -360,8 +360,8 @@ The optimal values of v1 and v2 are indicated on the plot.
 - `levels`: Can be an integer or an array. If an integer, this specfies the number of contour lines drawn. If an array, contour lines are drawn at the exact levels specified in the array.
 - `fill::Bool`: If true, fills in the contour plot with solid color.
 - `logspace::Bool` If true, contour lines are spaced logarithmically. Recommended if a higher density of contour lines near the minima is desired.
-- `xlabel::AbstractString`: Label for the horizontal axis. Can be a LaTexString e.g. L"x".
-- `ylabel::AbstractString`: Label for the vertical axis. Can be a LaTexString e.g. L"y". 
+- `xlabel::AbstractString`: Label for the horizontal axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"x".
+- `ylabel::AbstractString`: Label for the vertical axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"y". 
 - `xguidefontsize::Real`: Font size for x-axis label.
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
