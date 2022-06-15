@@ -8,6 +8,7 @@ makedocs(;
     authors="Owen Bradley",
     repo="https://github.com/owenpb/FiniteSizeScaling.jl/blob/{commit}{path}#{line}",
     sitename="FiniteSizeScaling.jl",
+    workdir="../../../JuliaProjects",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://owenpb.github.io/FiniteSizeScaling.jl",
@@ -15,7 +16,10 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Methods" => "methods.md"
+        "Methods" => "methods.md",
+        "Example: Holstein model" => "example_page.md",
+        "Demo 1: One-parameter scaling" => "demo_1.md",
+        "Demo 2: Two-parameter scaling" => "demo_2.md"
     ]
 )
 
