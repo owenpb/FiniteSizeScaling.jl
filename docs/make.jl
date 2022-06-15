@@ -10,7 +10,7 @@ makedocs(;
     authors="Owen Bradley",
     repo="https://github.com/owenpb/FiniteSizeScaling.jl/blob/{commit}{path}#{line}",
     sitename="FiniteSizeScaling.jl",
-    workdir="../../../",
+    workdir=joinpath(@__DIR__, "../../"),
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://owenpb.github.io/FiniteSizeScaling.jl",
