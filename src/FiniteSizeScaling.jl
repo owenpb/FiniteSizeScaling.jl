@@ -346,7 +346,7 @@ end
 
 
 """
-    contour_plot(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"\$v_1\$", ylabel::AbstractString=L"\$v_2\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, color::Symbol=:algae, markershape::Symbol=:star4, markersize::Real=6, markercolor::Symbol=:yellow, size::Tuple=(800,500))
+    plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"\$v_1\$", ylabel::AbstractString=L"\$v_2\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, color::Symbol=:algae, markershape::Symbol=:star4, markersize::Real=6, markercolor::Symbol=:yellow, size::Tuple=(800,500))
 
 Produces a contour plot showing the sum of squared residuals as a function of v1 (x-axis) and v2 (y-axis) after two-parameter scaling has been performed using `fss_two_var`.
 The optimal values of v1 and v2 are indicated on the plot.    
@@ -372,7 +372,7 @@ The optimal values of v1 and v2 are indicated on the plot.
 - `markercolor::Symbol`: Color of marker used to pinpoint the optimal parameter values. Can be any markercolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
 - `size::Tuple`: Size of contour plot drawn.
 """
-function contour_plot(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"$v_1$",
+function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"$v_1$",
     ylabel::AbstractString=L"$v_2$",
     xguidefontsize::Real=16,
     yguidefontsize::Real=16,
