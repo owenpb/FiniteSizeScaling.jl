@@ -1,3 +1,5 @@
+push!(LOAD_PATH, "../src/")
+
 using FiniteSizeScaling
 using Documenter
 
@@ -8,6 +10,7 @@ makedocs(;
     authors="Owen Bradley",
     repo="https://github.com/owenpb/FiniteSizeScaling.jl/blob/{commit}{path}#{line}",
     sitename="FiniteSizeScaling.jl",
+    workdir="../../../",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://owenpb.github.io/FiniteSizeScaling.jl",
@@ -23,6 +26,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/owenpb/FiniteSizeScaling.jl",
+    repo="github.com/owenpb/FiniteSizeScaling.jl.git",
     devbranch="main"
 )
