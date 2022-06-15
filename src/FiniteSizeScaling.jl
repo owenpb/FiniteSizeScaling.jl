@@ -8,7 +8,7 @@ export fss_one_var
 export fss_two_var
 export plot_data
 export plot_residuals
-export contour_plot
+export plot_contour
 
 
 """
