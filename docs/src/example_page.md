@@ -19,7 +19,7 @@ This package includes a number of methods for performing finite size scaling and
 Note: The data used in these demos is provided in the examples folder of this package. This example data can be imported via:
 
 ```@repl
-include("FiniteSizeScaling/examples/ExampleData.jl");
+include("examples/ExampleData.jl");
 import .ExampleData.example_data_with_error
 import .ExampleData.example_data_no_error
 import .ExampleData.example_fit_weights
