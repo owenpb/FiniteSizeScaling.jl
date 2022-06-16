@@ -112,7 +112,7 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
         print("Optimal v1 value: ")
         print(best_v1)
         println(" ")
-        print("Smallest residual ")
+        print("Smallest residual: ")
         print(min_res)
         println(" ")
         println(" ")
