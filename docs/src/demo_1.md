@@ -44,6 +44,8 @@ At this point, you can call the function `plot_data` to display the raw unscaled
 plot_data(data_with_error)
 ```
 
+![Raw data](raw_data.png)
+
 As discussed in the Example page, we aim to rescale the data along new axes ``X_s = (\beta - \beta_c) L`` and ``Y_s = S_{cdw} L^{-7/4}``. We will take $\beta_c$ to be the one free parameter we will tune to obtain the optimal data collapse, and denote it ``v_1``, i.e. our scaled axes will be ``X_s = (X - v_1) L`` and ``Y_s = Y L^{-7/4}``. For one-parameter scaling, the user now must define two functions which define the scaled X and Y axes:
 
 ```@julia
@@ -71,12 +73,20 @@ scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=
 
 where `data` is the single array of data defined previously, `xs` and `ys` are the functions previously defined for the scaled axes, `v1i` and `v1f` are the start and end points of the parameter search, `n1` is the number of values of ``v_1`` in this range to check. The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
 
-The function `fss_one_var` returns four variables: an array `scaled_data` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; an array `residuals` of length `n1` which stores the sum of squared residuals for each value of ``v_1`` checked; a scalar `min_res` which is the minimum value of the array `residuals`; and a scalar `best_v1` which is the value of ``v_1`` which gave the smallest overall residual. By default it will also print out the values of `min_res` and `best_v1`:
+The function `fss_one_var` returns four variables: an array `scaled_data` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; an array `residuals` of length `n1` which stores the sum of squared residuals for each value of ``v_1`` checked; a scalar `min_res` which is the minimum value of the array `residuals`; and a scalar `best_v1` which is the value of ``v_1`` which gave the smallest overall residual. By default it will also print out the values of `best_v1` and `min_res`:
 
 ```@julia
 Optimal v1 value: 6.1313131313131315 
 Smallest residual: 0.12847365603386035 
 ```
+!!! note "Note: When $Y_s$ explicitly depends on $v_1$ set norm_y=true"
+
+    When the scaled vertical axis ``Y_s`` has an explicit dependence on the tuned parameter ``v_1`` (and/or ``v_2`` for two-parameter scaling), the magnitude of ``Y_s`` values can vary drastically during the parameter sweep. In determining the *relative* quality of fit of a polynomial to the scaled data, the absolute magnitude of the sum of squared residuals therefore may not be an appropriate choice. 
+    
+    In this case, each individual fit residual should be divided by the magnitude ``Y_s`` of the corresponding data point. Then, the sum of the squares of these "normalized" residuals will provide a true measure of the relative quality of the polynomial fitting.
+    
+    To do this, `fss_one_var` takes an optional boolean argument `norm_y`. Set `norm_y=true` to normalize the fit residuals. 
+
 
 At this point, you can again call the function `plot_data`, passing in the `scaled_data` returned by the `fss_one_var` function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1`:
 
@@ -84,8 +94,15 @@ At this point, you can again call the function `plot_data`, passing in the `scal
 plot_data(scaled_data)
 ```
 
+![Scaled data](scaled_data.png)
+
 After one-parameter finite-size scaling has been performed, we can plot the dependence of the sum of squared residuals on ``v_1``. To do this use the `plot_residuals` function, and pass in the array of residuals returned by `fss_one_var`, along with the exact values of `v1i`, `v1f`, and `n1` which were used:
 
 ```@julia
 plot_residuals(residuals, v1i=5.0, v1f=7.0, n1=100)
 ```
+
+![Residuals plot](residuals_plot.png)
+
+!!! tip
+    When using plotting functions such as `plot_data` or `plot_residuals`, plot attributes such as axes labels, font sizes, marker sizes, colors, and figure dimensions can be easily passed as optional arguments. See the docstrings of each plotting function or the Methods page for full details. 
