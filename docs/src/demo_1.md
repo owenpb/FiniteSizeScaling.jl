@@ -2,7 +2,7 @@
 
 In this demo we will show how to perform finite-size scaling where one free parameter is tuned to obtain the best possible data collapse. We will use the CDW transition in the square lattice Holstein model as an example, where the critical inverse temperature $\beta_c$ is to be optimized. 
 
-Before we can perform finite-size scaling, we need to have data for several difference lattice sizes ``L``. Suppose we have five lattice sizes ``L=4, 6, 8, 10, 12``. For each lattice size, we will have an array of $``X"$ values (i.e. values of the inverse temperature ``\beta``), an array of $``Y"$ values (i.e. values of the order parameter ``S_{cdw}``), and an array of $``E"$ values which are the errors in each $``Y"$ value. The data should be pre-arranged into arrays in the following way:
+Before we can perform finite-size scaling, we need to have data for several difference lattice sizes ``L``. Suppose we have five lattice sizes ``L=4, 6, 8, 10, 12``. For each lattice size, we will have an array of ``X`` values (i.e. values of the inverse temperature ``\beta``), an array of ``Y`` values (i.e. values of the order parameter ``S_{cdw}``), and an array of ``E`` values which are the errors in each ``Y`` value. The data should be pre-arranged into arrays in the following way:
 
 ```@julia
 X_L4 = [1.973, 2.989, 3.978, 4.513, 4.754, 4.968, 5.182, 5.476, 5.743, 5.957, 6.225, 6.492, 7.000, 7.989, 8.979]
