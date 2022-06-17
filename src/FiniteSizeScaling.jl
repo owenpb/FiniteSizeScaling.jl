@@ -38,10 +38,12 @@ Performs finite size scaling with one optimized parameter v1.
 """
 function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, p::Int, weights::AbstractVector=nothing, norm_y::Bool=false, verbose::Bool=true)
 
+    # Number of lattice sizes
     nL = length(data)
 
     residuals = AbstractFloat[]
 
+    # Values of v1 used in the parameter sweep 
     v1_vals = range(v1i, v1f, length=n1)
 
     for v1 in v1_vals
@@ -51,6 +53,8 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
         W_all = Float64[]
 
         for i in 1:nL
+
+            # For each lattice size, scale the X and Y data to obtain Xs and Ys arrays
 
             L = last(data[i])
             X = data[i][1]
@@ -62,6 +66,7 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
             append!(Xp_all, Xp)
             append!(Yp_all, Yp)
 
+            # If user does not provide weights, all weights are identical and equal to 1
 
             if weights === nothing
                 append!(W_all, ones(length(X)))
@@ -71,7 +76,11 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
         end
 
+        # Call the fit function from Polynomials.jl  
+
         f = fit(Xp_all, Yp_all, p, weights=W_all)
+
+        # If norm_y = true, each residual is "normalized" by the scaled Y value 
 
         if norm_y == true
             res = sum(((f.(Xp_all) - Yp_all) ./ Yp_all) .^ 2)
@@ -79,9 +88,13 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
             res = sum((f.(Xp_all) - Yp_all) .^ 2)
         end
 
+        # Store the calculated sum of weighted squared residuals (possibly normalized) in the array residuals
+
         push!(residuals, res)
 
     end
+
+    # Find the minimum residual and the corresponding best value of v1
 
     min_res, min_res_index = findmin(residuals)
     best_v1 = v1_vals[min_res_index]
@@ -90,23 +103,34 @@ function fss_one_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
     for i in 1:nL
 
+        # For each lattice size, scale the X and Y data using the best_v1 parameter to obtain the scaled Xs and Ys data which gives the best data collapse.
+        # Store this data in scaled_data_array, where each element is [Xs, Ys, Es, L] for a given lattice size.
+        # Since each Y value is mapped to a corresponding Ys value, error bars for Y should be scaled by a factor (Ys/Y).
+
         L = last(data[i])
         X = data[i][1]
         Y = data[i][2]
         Xp_best = xs(X, L, best_v1)
         Yp_best = ys(Y, L, best_v1)
 
+        # Check if user provided error data (if so, each element of 'data' has four elements: X, Y, E, l)
+
         if length(data[i]) == 4
             E = data[i][3]
             Ep = E .* (Yp_best ./ Y)
             scaled_data = [Xp_best, Yp_best, Ep, L]
         else
+
+            # If no error data was provided, each element of scaled_data is simply [Xs, Ys, L]
             scaled_data = [Xp_best, Yp_best, L]
         end
 
         push!(scaled_data_array, scaled_data)
 
     end
+
+    # Print the optimal v1 value giving the best data collapse, and the magnitude of the smallest residual.
+    # This can be turned off setting verbose=false.
 
     if verbose == true
         print("Optimal v1 value: ")
@@ -154,10 +178,15 @@ Performs finite size scaling with two optimized parameters v1 and v2.
 """
 function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, p::Int, weights=nothing, norm_y=false, verbose=true)
 
+    # Number of lattice sizes
     nL = length(data)
+
     residuals = Array{Float64}(undef, (n2, n1))
+
+    # Values of v1 and v2 used in the parameter sweep 
     v1_vals = range(v1i, v1f, length=n1)
     v2_vals = range(v2i, v2f, length=n2)
+
     index1 = 0
 
     for v1 in v1_vals
@@ -175,6 +204,8 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
             for i in 1:nL
 
+                # For each lattice size, scale the X and Y data to obtain Xs and Ys arrays
+
                 L = last(data[i])
                 X = data[i][1]
                 Y = data[i][2]
@@ -185,6 +216,8 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
                 append!(Xp_all, Xp)
                 append!(Yp_all, Yp)
 
+                # If user does not provide weights, all weights are identical and equal to 1
+
                 if weights === nothing
                     append!(W_all, ones(length(X)))
                 else
@@ -193,7 +226,11 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
             end
 
+            # Call the fit function from Polynomials.jl  
+
             f = fit(Xp_all, Yp_all, p, weights=W_all)
+
+            # If norm_y = true, each residual is "normalized" by the scaled Y value 
 
             if norm_y == true
                 res = sum(((f.(Xp_all) - Yp_all) ./ Yp_all) .^ 2)
@@ -201,10 +238,16 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
                 res = sum((f.(Xp_all) - Yp_all) .^ 2)
             end
 
+            # Store the calculated sum of weighted squared residuals (possibly normalized) in the array residuals.
+            # The columns should correspond to values of v1, and the rows should correspond to values of v2.
+            # This ensures that when this array is passed into the contour plot function, values of v1 are shown along the horizontal axis, and v2 is along the vertical axis.
+
             residuals[index2, index1] = res
 
         end
     end
+
+    # Find the minimum residual and the corresponding best values of v1 and v2 
 
     min_res_info = findmin(residuals)
     min_res = min_res_info[1]
@@ -217,23 +260,34 @@ function fss_two_var(; data::AbstractVector, xs::Function, ys::Function, v1i::Re
 
     for i in 1:nL
 
+        # For each lattice size, scale the X and Y data using the best_v1 parameter to obtain the scaled Xs and Ys data which gives the best data collapse.
+        # Store this data in scaled_data_array, where each element is [Xs, Ys, Es, L] for a given lattice size.
+        # Since each Y value is mapped to a corresponding Ys value, error bars for Y should be scaled by a factor (Ys/Y).
+
         L = last(data[i])
         X = data[i][1]
         Y = data[i][2]
         Xp_best = xs(X, L, best_v1, best_v2)
         Yp_best = ys(Y, L, best_v1, best_v2)
 
+        # Check if user provided error data (if so, each element of 'data' has four elements: X, Y, E, l)
+
         if length(data[i]) == 4
             E = data[i][3]
             Ep = E .* (Yp_best ./ Y)
             scaled_data = [Xp_best, Yp_best, Ep, L]
         else
+
+            # If no error data was provided, each element of scaled_data is simply [Xs, Ys, L]
             scaled_data = [Xp_best, Yp_best, L]
         end
 
         push!(scaled_data_array, scaled_data)
 
     end
+
+    # Print the optimal v1 and v2 values giving the best data collapse, and the magnitude of the smallest residual.
+    # This can be turned off setting verbose=false.
 
     if verbose == true
         print("Optimal v1 value: ")
@@ -282,7 +336,13 @@ function plot_data(data::AbstractArray; xlabel::AbstractString=L"$x$",
     markersize::Real=4, palette::Symbol=:tab10,
     size::Tuple=(600, 400))
 
+    # Makes a scatter plot of the data
+
+    # Check if user provided error data. If so, each element of 'data' has four elements: X, Y, E, L.
+
     if length(data[1]) == 4
+
+        # If error data is provided, produce a scatter plot with error bars, plotting sequentially for each lattice size. Legend labels correspond to the lattice size L provided.
 
         scatter(data[1][1], data[1][2], yerr=data[1][3], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, markerstrokecolor=:auto, palette=palette)
         for i in 1:1:(length(data)-1)
@@ -290,6 +350,9 @@ function plot_data(data::AbstractArray; xlabel::AbstractString=L"$x$",
         end
 
     else
+
+        # If no error data is provided, produce a scatter plot without error bars, plotting sequentially for each lattice size. Legend labels correspond to the lattice size L provided.
+
         scatter(data[1][1], data[1][2], label=L"L= " * latexstring(last(data[1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto, palette=palette)
         for i in 1:1:(length(data)-1)
             scatter!(data[i+1][1], data[i+1][2], label=L"L= " * latexstring(last(data[i+1])), markershape=markershape, markersize=markersize, linewidth=0, markerstrokecolor=:auto)
@@ -338,6 +401,8 @@ function plot_residuals(residuals::AbstractVector; v1i::Real, v1f::Real, n1::Int
     markersize::Real=4, linewidth::Real=2,
     linecolor::Symbol=:black, size::Tuple=(600, 400))
 
+    # Plot the residuals (as a function of v1) obtained after one-parameter scaling has been performed using fss_one_var.
+
     plot(range(v1i, v1f, length=n1), residuals, legend=false, framestyle=:box, linewidth=linewidth, linecolor=linecolor, markershape=markershape, markersize=markersize, markercolor=markercolor, margin=7Plots.mm, size=size, dpi=600)
     xaxis!(xlabel=xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel=ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
@@ -383,6 +448,8 @@ function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v
     markersize::Real=6,
     markercolor::Symbol=:yellow, size::Tuple=(800, 500))
 
+    # Get the minimum and maximum values of the residual, as well as the (v1, v2) coordinate which gives the best data collapse.
+
     min_res_info = findmin(residuals)
     min_res = min_res_info[1]
     max_res = findmax(residuals)[1]
@@ -393,13 +460,20 @@ function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v
 
         if logspace == false
 
+            # If 'levels' is an integer and logspace=false: 'levels' contours will be drawn, and the values represented by each contour line will be equally spaced between min_res and max_res.
+            # 'nl' is the argument to be passed to the Plot.jl contour() function, which specifies how the contours are to be drawn.
+
             nl = levels
 
         else
 
+            # If 'levels' is an integer and logspace=true: 'levels' contours will be drawn, and the values represented by each contour line will be logarithmically spaced between min_res and max_res.
+
             level_list = []
             res_range = max_res - min_res
             log_range = log(10, res_range)
+
+            # Get a list of logarithmically spaced values between min_res and max_res:
 
             for i in 0:levels+1
                 inc_exp = i * (log_range / levels)
@@ -414,14 +488,21 @@ function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v
 
     else
 
+        # If 'levels' is not an integer (i.e. an array), only contour lines at the exact levels specified in this array will be drawn. 
+
         nl = levels
 
     end
+
+    # Specify the list of v1 and v2 used in the parameter sweep, and the best values of v1 and v2 found
 
     v1_vals = range(v1i, v1f, length=n1)
     v2_vals = range(v2i, v2f, length=n2)
     best_v1 = v1_vals[min_res_index1]
     best_v2 = v2_vals[min_res_index2]
+
+    # Make the contour plot. User can speficy optional arguments e.g. color and fill when calling plot_contour.
+    # Also plot a marker on the contour plot showing the location of the best (v1, v2) value which gives the best data collapse. 
 
     contour(v1_vals, v2_vals, residuals, levels=nl, color=color, fill=fill, framestyle=:box, margin=7Plots.mm, size=size, dpi=600)
     scatter!([best_v1], [best_v2], legend=false, markershape=markershape, markersize=markersize, markercolor=markercolor)
