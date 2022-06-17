@@ -20,11 +20,12 @@ for different lattice sizes, the data should collapse onto a universal curve, al
 
 This package includes a number of methods for performing finite size scaling and for plotting results. In Demo 1, we show how to perform **one-parameter scaling** to find the optimal value of ``\beta_c`` which produces the best data collapse for the square lattice Holstein model. In Demo 2, we show how **two-parameter scaling** can be performed by assuming the exponent ``2-\eta`` is unknown, and finding the optimal values of both ``\beta_c`` and ``2-\eta`` which produce the best data collapse. 
 
-Note: The data used in these demos is provided in the examples folder of this package. This example data can be imported via:
+!!! note 
+    The data used in these demos is provided in the examples folder of this package. This example data can be imported via:
 
-```@julia
-include("FiniteSizeScaling/examples/ExampleData.jl")
-import .ExampleData.example_data_with_error
-import .ExampleData.example_data_no_error
-import .ExampleData.example_fit_weights
-```
+    ```@julia
+    include("FiniteSizeScaling/examples/ExampleData.jl")
+    import .ExampleData.example_data_with_error
+    import .ExampleData.example_data_no_error
+    import .ExampleData.example_fit_weights
+    ```
