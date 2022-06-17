@@ -74,7 +74,7 @@ where each element is an array of ``W`` values for a given lattice size. Here in
 The next step is to call the function [`fss_one_var`](@ref) to perform the finite-size scaling. 
 
 ```@julia
-julia> scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, p=4, weights=fit_weights)
+julia> scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, p=4, weights=fit_weights);
 ```
 
 where `data` is the single array of data defined previously, `xs` and `ys` are the functions previously defined for the scaled axes, `v1i` and `v1f` are the start and end points of the parameter search, and `n1` is the number of values of ``v_1`` in this range to check. The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  

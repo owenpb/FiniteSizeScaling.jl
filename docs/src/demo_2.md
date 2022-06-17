@@ -39,7 +39,7 @@ However, note that since our scaled ``Y_s`` axis depends exponentially on the tu
 The next step is to call the function [`fss_two_var`](@ref) to perform the finite-size scaling. 
 
 ```@julia
-julia> scaled_data, residuals, min_res, best_v1, best_v2 = fss_two_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, p=4, weights=fit_weights, norm_y=true)
+julia> scaled_data, residuals, min_res, best_v1, best_v2 = fss_two_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, p=4, weights=fit_weights, norm_y=true);
 ```
 
 where `data` is the single array of data defined previously, and `xs` and `ys` are the functions previously defined for the scaled axes. Here `v1i` and `v1f` are the start and end points of the parameter search for ``v_1`` (in this example ``\beta_c``), where `n1` is the number of values of ``v_1`` in this range to check. Similarly, `v2i` and `v2f` are the start and end points of the parameter search for ``v_2`` (in this example ``(2-\eta)``), where `n2` is the number of values of ``v_2`` in this range to check.  The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
@@ -81,7 +81,7 @@ julia> plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=10
 
 
 !!! tip
-    To use ``\LaTeX`` when specifying axes labels, you can use a LaTeXString e.g. `L"\beta_c"`. To use the [LaTeXStrings.jl](https://github.com/stevengj/LaTeXStrings.jl) package, import it via:
+    To use ``\LaTeX`` when specifying axes labels, you can use a LaTeXString e.g. `L"\beta_c"`. To use the [LaTeXStrings.jl](https://github.com/stevengj/LaTeXStrings.jl) package, add it to your environment with `] add LaTeXStrings` and then import it:
     ```@julia
     julia> using LaTeXStrings
     ```
