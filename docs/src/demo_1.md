@@ -85,7 +85,7 @@ Smallest residual: 0.12847365603386035
     
     In this case, each individual fit residual should be divided by the magnitude ``Y_s`` of the corresponding data point. Then, the sum of the squares of these "normalized" residuals will provide a true measure of the relative quality of the polynomial fitting.
     
-    To do this, `fss_one_var` takes an optional boolean argument `norm_y`. Set `norm_y=true` to normalize the fit residuals. 
+    To do this, both `fss_one_var` and `fss_two_var` takes an optional boolean argument `norm_y`. Set `norm_y=true` to normalize the fit residuals. 
 
 
 At this point, you can again call the function `plot_data`, passing in the `scaled_data` returned by the `fss_one_var` function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1`:

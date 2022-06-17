@@ -296,7 +296,7 @@ function plot_data(data::AbstractArray; xlabel::AbstractString=L"$x$",
         end
     end
 
-    scatter!(legend=legend, legendfontsize=legendfontsize, framestyle=:box, margin=3Plots.mm, size=size)
+    scatter!(legend=legend, legendfontsize=legendfontsize, framestyle=:box, margin=7Plots.mm, size=size, dpi=600)
     xaxis!(xlabel=xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel=ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
 
@@ -338,7 +338,7 @@ function plot_residuals(residuals::AbstractVector; v1i::Real, v1f::Real, n1::Int
     markersize::Real=4, linewidth::Real=2,
     linecolor::Symbol=:black, size::Tuple=(600, 400))
 
-    plot(range(v1i, v1f, length=n1), residuals, legend=false, framestyle=:box, linewidth=linewidth, linecolor=linecolor, markershape=markershape, markersize=markersize, markercolor=markercolor, margin=3Plots.mm, size=size)
+    plot(range(v1i, v1f, length=n1), residuals, legend=false, framestyle=:box, linewidth=linewidth, linecolor=linecolor, markershape=markershape, markersize=markersize, markercolor=markercolor, margin=7Plots.mm, size=size, dpi=600)
     xaxis!(xlabel=xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel=ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
 
@@ -378,7 +378,7 @@ function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v
     yguidefontsize::Real=16,
     xtickfontsize::Real=10,
     ytickfontsize::Real=10,
-    color::Symbol=:algae,
+    color::Symbol=:deep,
     markershape::Symbol=:star4,
     markersize::Real=6,
     markercolor::Symbol=:yellow, size::Tuple=(800, 500))
@@ -423,7 +423,7 @@ function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v
     best_v1 = v1_vals[min_res_index1]
     best_v2 = v2_vals[min_res_index2]
 
-    contour(v1_vals, v2_vals, residuals, levels=nl, color=color, fill=fill, framestyle=:box, margin=3Plots.mm, size=size)
+    contour(v1_vals, v2_vals, residuals, levels=nl, color=color, fill=fill, framestyle=:box, margin=7Plots.mm, size=size, dpi=600)
     scatter!([best_v1], [best_v2], legend=false, markershape=markershape, markersize=markersize, markercolor=markercolor)
     xaxis!(xlabel, xguidefontsize=xguidefontsize, xtickfontsize=xtickfontsize)
     yaxis!(ylabel, yguidefontsize=yguidefontsize, ytickfontsize=ytickfontsize)
