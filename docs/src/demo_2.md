@@ -71,7 +71,7 @@ The [`plot_contour`](@ref) function produces a contour plot displaying the sum o
 
 ![Contour plot 1](contour_plot_1.png)
 
-Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and font sizes can be customized when calling the function [`plot_contour`](@ref). For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/). See the docstrings of [`plot_contour`](@ref) or the [Methods](methods.md) page for full details. Below is a contour plot showing same residuals data as above, where several of these plot attributes have been modified.
+Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and font sizes can be customized when calling the function [`plot_contour`](@ref). For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/). See the docstrings of [`plot_contour`](@ref) or the [Methods](methods.md) page for full details. Below is a contour plot showing the same `residuals` data as above, where several of these plot attributes have been modified.
 
 ```@julia
 julia> plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, levels=25, fill=true, logspace=true, xlabel=L"\beta_c", ylabel=L"2 - \eta", color=:terrain, markersize=7, markershape=:star5, markercolor=:white, size=(800,300)) 
