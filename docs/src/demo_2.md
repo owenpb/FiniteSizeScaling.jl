@@ -8,7 +8,7 @@ Let us use the same data as in [Demo 1](demo_1.md), which as before has been loa
 data_with_error = [[X_L4, Y_L4, E_L4, 4], [X_L6, Y_L6, E_L6, 6], [X_L8, Y_L8, E_L8, 8], [X_L10, Y_L10, E_L10, 10], [X_L12, Y_L12, E_L12, 12]]
 ```
 
-We now aim to rescale the data along new axes ``X_s = (\beta - \beta_c)L`` and ``Y_s = S_{cdw} L^{-(2-\eta)}``. We will take ``\beta_c`` to the first free parameter we will tune to obtain the optimal data collapse, and denote it ``v_1``, and we will take ``(2-\eta)`` to be the second free parameter, and denote it ``v_2``. That is, our scaled axes will be ``X_s = (X - v_1)L`` and ``Y_s = Y L^{-v_2}``. For two-parameter scaling, the user now must define two functions which define the scaled X and Y axes:
+We now aim to rescale the data along new axes ``X_s = (\beta - \beta_c)L`` and ``Y_s = S_{cdw} L^{-(2-\eta)}``. We will take ``\beta_c`` to be the first free parameter we will tune to obtain the optimal data collapse, and denote it ``v_1``, and we will take ``(2-\eta)`` to be the second free parameter, and denote it ``v_2``. That is, our scaled axes will be ``X_s = (X - v_1)L`` and ``Y_s = Y L^{-v_2}``. For two-parameter scaling, the user now must define two functions which define the scaled X and Y axes:
 
 
 ```@julia
@@ -20,7 +20,7 @@ y_scaled(Y, L, v1, v2) = Y * (L^(-1 * v2))
 
 The functions defining the ``X_s`` axis should take ``X``, ``L``, ``v_1``, and ``v_2`` as arguments, while the function defining the scaled ``Y_s`` axis should take ``Y``, ``L``, ``v_1``, and ``v_2`` as arguments. Note that since ``X`` and ``Y`` are arrays, elementwise operators such as ``.-`` may be necessary.
 
-To determine the best value of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``.  To determine the best value of ``v_2``, a search is performed between an initial value ``v_{2i}`` and a final value ``v_{2f}``. The finite-size scaling method works in the same way as for one-parameter scaling, except now the method finds the *pair* of ``v_1`` and ``v_2`` values which yield the minimal overall residual. As in Demo 1, we will use inverse variance weights to perform weighted least squares. 
+To determine the best value of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``.  To determine the best value of ``v_2``, a search is performed between an initial value ``v_{2i}`` and a final value ``v_{2f}``. The finite-size scaling method works in the same way as for one-parameter scaling, except now the method finds the *pair* of ``v_1`` and ``v_2`` values which yield the minimal overall residual. As in [Demo 1](demo_1.md), we will use inverse variance weights to perform weighted least squares. 
 
 ```@julia
 fit_weights = [1 ./ (E_L4.^2), 1 ./ (E_L6.^2), 1 ./ (E_L8.^2), 1 ./ (E_L10.^2), 1 ./ (E_L12.^2)]
@@ -42,7 +42,7 @@ The next step is to call the function [`fss_two_var`](@ref) to perform the finit
 julia> scaled_data, residuals, min_res, best_v1, best_v2 = fss_two_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, p=4, weights=fit_weights, norm_y=true)
 ```
 
-where `data` is the single array of data defined previously, and `xs` and `ys` are the functions previously defined for the scaled axes. Here `v1i` and `v1f` are the start and end points of the parameter search for ``v_1`` (in this example ``\beta_c``), where `n1` is the number of values of ``v_1`` in this range to check. Similarly, `v2i` and `v1f` are the start and end points of the parameter search for ``v_2`` (in this example ``(2-\eta)``), where `n2` is the number of values of ``v_2`` in this range to check.  The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
+where `data` is the single array of data defined previously, and `xs` and `ys` are the functions previously defined for the scaled axes. Here `v1i` and `v1f` are the start and end points of the parameter search for ``v_1`` (in this example ``\beta_c``), where `n1` is the number of values of ``v_1`` in this range to check. Similarly, `v2i` and `v2f` are the start and end points of the parameter search for ``v_2`` (in this example ``(2-\eta)``), where `n2` is the number of values of ``v_2`` in this range to check.  The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
 
 The function [`fss_two_var`](@ref) returns five variables: an array `scaled_data_array` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; a two-dimensional array `residuals` of dimension `(n2, n1)` which stores the sum of squared residuals for each pair of ``(v_2, v_1)`` values checked; a scalar `min_res` which is the minimum value of the array `residuals`; and scalars `best_v1` and `best_v2` which are the values of ``v_1`` and ``v_2`` which gave the smallest overall residual. By default it will also print out the values of `best_v1`, `best_v2`, and `min_res`:
 
@@ -51,7 +51,7 @@ Optimal v1 value: 6.090909090909091
 Optimal v2 value: 1.6767676767676767
 Smallest residual: 1.158515739950633 
 ```
-At this point, you can again call the function [`plot_data`](@ref), passing in the `scaled_data` returned by the [`fss_two_var`](@ref) function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1` and ``v_2`` set to `best_v2`:
+At this point, you can again call the function [`plot_data`](@ref), passing in the `scaled_data_array` returned by the [`fss_two_var`](@ref) function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1` and ``v_2`` set to `best_v2`:
 
 ```@julia
 julia> plot_data(scaled_data)
@@ -71,7 +71,7 @@ The [`plot_contour`](@ref) function produces a contour plot displaying the sum o
 
 ![Contour plot 1](contour_plot_1.png)
 
-Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and fontsizes can be customized when calling the function [`plot_contour`](@ref). For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/). See the docstrings of [`plot_contour`](@ref) or the [Methods](methods.md) page for full details. Below is a contour plot showing same residuals data as above, where several of these plot attributes have been modified.
+Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and font sizes can be customized when calling the function [`plot_contour`](@ref). For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/). See the docstrings of [`plot_contour`](@ref) or the [Methods](methods.md) page for full details. Below is a contour plot showing same residuals data as above, where several of these plot attributes have been modified.
 
 ```@julia
 julia> plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, levels=25, fill=true, logspace=true, xlabel=L"\beta_c", ylabel=L"2 - \eta", color=:terrain, markersize=7, markershape=:star5, markercolor=:white, size=(800,300)) 

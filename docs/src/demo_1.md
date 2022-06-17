@@ -77,7 +77,7 @@ The next step is to call the function [`fss_one_var`](@ref) to perform the finit
 julia> scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, p=4, weights=fit_weights)
 ```
 
-where `data` is the single array of data defined previously, `xs` and `ys` are the functions previously defined for the scaled axes, `v1i` and `v1f` are the start and end points of the parameter search, `n1` is the number of values of ``v_1`` in this range to check. The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
+where `data` is the single array of data defined previously, `xs` and `ys` are the functions previously defined for the scaled axes, `v1i` and `v1f` are the start and end points of the parameter search, and `n1` is the number of values of ``v_1`` in this range to check. The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
 
 The function [`fss_one_var`](@ref) returns four variables: an array `scaled_data_array` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; an array `residuals` of length `n1` which stores the sum of squared residuals for each value of ``v_1`` checked; a scalar `min_res` which is the minimum value of the array `residuals`; and a scalar `best_v1` which is the value of ``v_1`` which gave the smallest overall residual. By default it will also print out the values of `best_v1` and `min_res`:
 
