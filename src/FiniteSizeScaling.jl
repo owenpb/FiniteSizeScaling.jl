@@ -25,7 +25,7 @@ Performs finite size scaling with one optimized parameter v1.
 - `v1f::Real`: Final value of v1 used in the search for optimal fit.
 - `n1::Int`: Number of v1 values used in the search for optimal fit.
 - `p::Int`: Degree of polynomial used in the fitting.
-- `weights::AbstractVector`: An optional array of weight data, where each element is an array of [W] data for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
+- `weights::AbstractVector`: An optional array of weight data, where each element is an array of weights for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
 - `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if scaling v1 changes the y-axis scale.
 - `verbose:Bool`: If true, prints the optimal v1 value and the magnitude of the smallest residual.
 
@@ -140,7 +140,7 @@ Performs finite size scaling with two optimized parameters v1 and v2.
 - `v2f::Real`: Final value of v2 used in the search for optimal fit.
 - `n2::Int`: Number of v2 values used in the search for optimal fit.
 - `p::Int`: Degree of polynomial used in the fitting.
-- `weights::AbstractArray`: An optional array of weight data, where each element is an array of [W] data for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
+- `weights::AbstractArray`: An optional array of weight data, where each element is an array of weights for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
 - `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if scaling v1 changes the y-axis scale.
 - `verbose::Bool`: If true, prints the optimal v1 value and the magnitude of the smallest residual.
 

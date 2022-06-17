@@ -56,7 +56,7 @@ y_scaled(Y, L, v1) = Y * (L^(-7/4))
 ```
 The function defining the ``X_s`` axis should take ``X``, ``L``, and ``v_1`` as arguments, while the function defining the scaled ``Y_s`` axis should take ``Y``, ``L``, and ``v_1`` as arguments. Note that since ``X`` and ``Y`` are arrays, elementwise operators such as ``.-`` may be necessary.
 
-To determine the best of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``. For each candidate value of ``v_1``, the data is scaled according to the user-defined formulae above, and a polynomial curve of order ``p`` is fit to the data, using the method of least squares to minimize the sum of squared residuals between the scaled data and the polynomial curve. The value of ``v_1`` which yields the smallest sum of squared residuals is identified as the optimal value. 
+To determine the best value of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``. For each candidate value of ``v_1``, the data is scaled according to the user-defined formulae above, and a polynomial curve of order ``p`` is fit to the data, using the method of least squares to minimize the sum of squared residuals between the scaled data and the polynomial curve. The value of ``v_1`` which yields the smallest sum of squared residuals is identified as the optimal value. 
 
 When performing the fit, one has the option to multiply each squared residual by a weight ``W``. For example, to perform weighted-least squares, these weights are typically inverse variances. This means that data points with larger error bars will be deemed less important for the fit, and vice-versa. To use weights when performing the fit, define an array as follows:
 
