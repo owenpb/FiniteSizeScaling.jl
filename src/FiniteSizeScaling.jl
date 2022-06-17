@@ -26,7 +26,7 @@ Performs finite size scaling with one optimized parameter v1.
 - `n1::Int`: Number of v1 values used in the search for optimal fit.
 - `p::Int`: Degree of polynomial used in the fitting.
 - `weights::AbstractVector`: An optional array of weight data, where each element is an array of weights for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
-- `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if scaling v1 changes the y-axis scale.
+- `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if sweeping through v1 changes the y-axis scale.
 - `verbose:Bool`: If true, prints the optimal v1 value and the magnitude of the smallest residual.
 
 # Returns:
@@ -141,7 +141,7 @@ Performs finite size scaling with two optimized parameters v1 and v2.
 - `n2::Int`: Number of v2 values used in the search for optimal fit.
 - `p::Int`: Degree of polynomial used in the fitting.
 - `weights::AbstractArray`: An optional array of weight data, where each element is an array of weights for a given lattice size. The length of `weights` should equal the number of lattice sizes. These weights multiply the squared residuals when performing the fit, and are typically inverse variances (1./ (E.^2)) for weighted least-squares.
-- `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if scaling v1 changes the y-axis scale.
+- `norm_y::Bool`: If true, each residual calculated (when evaluating the fit) is divided by the y-value of the data point. Recommended if sweeping through v1 or v2 changes the y-axis scale.
 - `verbose::Bool`: If true, prints the optimal v1 value and the magnitude of the smallest residual.
 
 # Returns:
@@ -258,7 +258,7 @@ Plots the data (either the unscaled data, or the optimal collapse of scaled data
 
 # Arguments:
 
-- `data::AbstractArray`: An array of input data, where each element is an array of [X, Y, E, L] data for a given lattice size (error E optional). The length of `data` should equal the number of lattice sizes. This could be the `scaled_data_array` returned by `fss_one_var` or `fss_two_var`, giving a plot of the best data collapse.
+- `data::AbstractArray`: An array of input data, where each element is an array of [X, Y, E, L] data for a given lattice size (error E optional). The length of `data` should equal the number of lattice sizes. This could be the `scaled_data_array` returned by [`fss_one_var`](@ref) or [`fss_two_var`](@ref), giving a plot of the best data collapse.
 - `xlabel::AbstractString`: Label for the horizontal axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"x".
 - `ylabel::AbstractString`: Label for the vertical axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"y". 
 - `xguidefontsize::Real`: Font size for x-axis label.
@@ -311,10 +311,10 @@ Plots the sum of squared residuals (calculated with `fss_one_var`) as a function
 
 # Arguments:
 
-- `residuals::AbstractVector`: A vector containing values of the sum of squared residuals for each v1 value used in the optimization search. This is the vector `residuals` returned by the `fss_one_var` function.
-- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
-- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
-- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function `fss_one_var`.
+- `residuals::AbstractVector`: A vector containing values of the sum of squared residuals for each v1 value used in the optimization search. This is the vector `residuals` returned by the [`fss_one_var`](@ref) function.
+- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function [`fss_one_var`](@ref).
+- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function [`fss_one_var`](@ref).
+- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function [`fss_one_var`](@ref).
 - `xlabel::AbstractString`: Label for the horizontal axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"x".
 - `ylabel::AbstractString`: Label for the vertical axis. Can be a [LaTexString](https://github.com/stevengj/LaTeXStrings.jl) e.g. L"y". 
 - `xguidefontsize::Real`: Font size for x-axis label.
@@ -348,15 +348,15 @@ end
 """
     plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"\$v_1\$", ylabel::AbstractString=L"\$v_2\$", xguidefontsize::Real=16, yguidefontsize::Real=16, xtickfontsize::Real=10, ytickfontsize::Real=10, color::Symbol=:algae, markershape::Symbol=:star4, markersize::Real=6, markercolor::Symbol=:yellow, size::Tuple=(800,500))
 
-Produces a contour plot showing the sum of squared residuals as a function of v1 (x-axis) and v2 (y-axis) after two-parameter scaling has been performed using `fss_two_var`.
+Produces a contour plot showing the sum of squared residuals as a function of v1 (x-axis) and v2 (y-axis) after two-parameter scaling has been performed using [`fss_two_var`](@ref).
 The optimal values of v1 and v2 are indicated on the plot.    
 
 # Arguments:
 
-- `residuals::AbstractArray`: Two-dimensional array of residual values obtained after two-parameter fit has been performed. This is the array `residuals` returned by the function `fss_two_var`.
-- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
-- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
-- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function `fss_two_var`.
+- `residuals::AbstractArray`: Two-dimensional array of residual values obtained after two-parameter fit has been performed. This is the array `residuals` returned by the function [`fss_two_var`](@ref).
+- `v1i::Real`: Initial value of v1 used in the search for optimal fit. Should be the same value used when calling the function [`fss_two_var`](@ref).
+- `v1f::Real`: Final value of v1 used in the search for optimal fit. Should be the same value used when calling the function [`fss_two_var`](@ref).
+- `n1::Int`: Number of v1 values used in the search for optimal fit. Should be the same value used when calling the function [`fss_two_var`](@ref).
 - `levels`: Can be an integer or an array. If an integer, this specfies the number of contour lines drawn. If an array, contour lines are drawn at the exact levels specified in the array.
 - `fill::Bool`: If true, fills in the contour plot with solid color.
 - `logspace::Bool` If true, contour lines are spaced logarithmically. Recommended if a higher density of contour lines near the minima is desired.

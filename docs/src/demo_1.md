@@ -2,7 +2,13 @@
 
 In this demo we will show how to perform finite-size scaling where one free parameter is tuned to obtain the best possible data collapse. We will use the CDW transition in the square lattice Holstein model as an example, where the critical inverse temperature $\beta_c$ is to be optimized. 
 
-Before we can perform finite-size scaling, we need to have data for several difference lattice sizes ``L``. Suppose we have five lattice sizes ``L=4, 6, 8, 10, 12``. For each lattice size, we will have an array of ``X`` values (i.e. values of the inverse temperature ``\beta``), an array of ``Y`` values (i.e. values of the order parameter ``S_{cdw}``), and an array of ``E`` values which are the errors in each ``Y`` value. The data should be pre-arranged into arrays in the following way:
+First, import the [`FiniteSizeScaling.jl`](https://owenpb.github.io/FiniteSizeScaling.jl/dev/) package:
+
+```@repl
+using FiniteSizeScaling
+```
+
+Before we can perform finite-size scaling, we need to have data for several difference lattice sizes ``L``. Suppose we have five lattice sizes ``L=4, 6, 8, 10, 12``. For each lattice size, we will have an array of ``X`` values (i.e. values of the inverse temperature ``\beta``), an array of ``Y`` values (i.e. values of the order parameter ``S_{cdw}``), and an array of ``E`` values which are the errors in each ``Y`` value. The data should be pre-arranged into arrays like this:
 
 ```@julia
 X_L4 = [1.973, 2.989, 3.978, 4.513, 4.754, 4.968, 5.182, 5.476, 5.743, 5.957, 6.225, 6.492, 7.000, 7.989, 8.979]
@@ -38,15 +44,15 @@ If your ``Y`` data does not have error bars, you can also omit the arrays of err
 data_no_error = [[X_L4, Y_L4, 4], [X_L6, Y_L6, 6], [X_L8, Y_L8, 8], [X_L10, Y_L10, 10], [X_L12, Y_L12, 12]]
 ```
 
-At this point, you can call the function `plot_data` to display the raw unscaled data:
+At this point, you can call the function [`plot_data`](@ref) to display the raw unscaled data:
 
 ```@julia
-plot_data(data_with_error)
+julia> plot_data(data_with_error)
 ```
 
 ![Raw data](raw_data.png)
 
-As discussed in the Example page, we aim to rescale the data along new axes ``X_s = (\beta - \beta_c) L`` and ``Y_s = S_{cdw} L^{-7/4}``. We will take $\beta_c$ to be the one free parameter we will tune to obtain the optimal data collapse, and denote it ``v_1``, i.e. our scaled axes will be ``X_s = (X - v_1) L`` and ``Y_s = Y L^{-7/4}``. For one-parameter scaling, the user now must define two functions which define the scaled X and Y axes:
+As discussed in the [Example](example_page.md) page, we aim to rescale the data along new axes ``X_s = (\beta - \beta_c) L`` and ``Y_s = S_{cdw} L^{-7/4}``. We will take $\beta_c$ to be the one free parameter we will tune to obtain the optimal data collapse, and denote it ``v_1``, i.e. our scaled axes will be ``X_s = (X - v_1) L`` and ``Y_s = Y L^{-7/4}``. For one-parameter scaling, the user now must define two functions which define the scaled X and Y axes:
 
 ```@julia
 x_scaled(X, L, v1) = (X .- v1) * L
@@ -63,17 +69,17 @@ When performing the fit, one has the option to multiply each squared residual by
 ```@julia
 fit_weights = [1 ./ (E_L4.^2), 1 ./ (E_L6.^2), 1 ./ (E_L8.^2), 1 ./ (E_L10.^2), 1 ./ (E_L12.^2)]
 ```
-where each element is an array of ``W`` values for a given lattice size. Here inverse variances have been chosen to perform a typical weighted least-squares. Note that the length of this array will equal the number of different lattice sizes being used. Using weights is completely optional and can be omitted if desired when calling the function `fss_one_var`.
+where each element is an array of ``W`` values for a given lattice size. Here inverse variances have been chosen to perform a typical weighted least-squares. Note that the length of this array will equal the number of different lattice sizes being used. Using weights is completely optional and can be omitted if desired when calling the function [`fss_one_var`](@ref).
 
-The next step is to call the function `fss_one_var` to perform the finite-size scaling. 
+The next step is to call the function [`fss_one_var`](@ref) to perform the finite-size scaling. 
 
 ```@julia
-scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, p=4, weights=fit_weights)
+julia> scaled_data, residuals, min_res, best_v1 = fss_one_var(data=data_with_error, xs=x_scaled, ys=y_scaled, v1i=5.0, v1f=7.0, n1=100, p=4, weights=fit_weights)
 ```
 
 where `data` is the single array of data defined previously, `xs` and `ys` are the functions previously defined for the scaled axes, `v1i` and `v1f` are the start and end points of the parameter search, `n1` is the number of values of ``v_1`` in this range to check. The integer degree ``p`` of the polynomial must also be specified, typically $4 \leq p \leq 8$ is sufficient.  
 
-The function `fss_one_var` returns four variables: an array `scaled_data` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; an array `residuals` of length `n1` which stores the sum of squared residuals for each value of ``v_1`` checked; a scalar `min_res` which is the minimum value of the array `residuals`; and a scalar `best_v1` which is the value of ``v_1`` which gave the smallest overall residual. By default it will also print out the values of `best_v1` and `min_res`:
+The function [`fss_one_var`](@ref) returns four variables: an array `scaled_data_array` where each element is an array of ``[X_s, Y_s, E_s, L]`` data for a given lattice size; an array `residuals` of length `n1` which stores the sum of squared residuals for each value of ``v_1`` checked; a scalar `min_res` which is the minimum value of the array `residuals`; and a scalar `best_v1` which is the value of ``v_1`` which gave the smallest overall residual. By default it will also print out the values of `best_v1` and `min_res`:
 
 ```@julia
 Optimal v1 value: 6.1313131313131315 
@@ -85,24 +91,24 @@ Smallest residual: 0.12847365603386035
     
     In this case, each individual fit residual should be divided by the magnitude ``Y_s`` of the corresponding data point. Then, the sum of the squares of these "normalized" residuals will provide a true measure of the relative quality of the polynomial fitting.
     
-    To do this, both `fss_one_var` and `fss_two_var` takes an optional boolean argument `norm_y`. Set `norm_y=true` to normalize the fit residuals. 
+    To do this, both [`fss_one_var`](@ref) and [`fss_two_var`](@ref) take an optional boolean argument `norm_y`. Set `norm_y=true` to normalize the fit residuals. 
 
 
-At this point, you can again call the function `plot_data`, passing in the `scaled_data` returned by the `fss_one_var` function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1`:
+At this point, you can again call the function [`plot_data`](@ref), passing in the `scaled_data_array` returned by the [`fss_one_var`](@ref) function. This will produce a plot of the optimal data collapse, i.e. the scaled data with ``v_1`` set to `best_v1`:
 
 ```@julia
-plot_data(scaled_data)
+julia> plot_data(scaled_data)
 ```
 
 ![Scaled data](scaled_data.png)
 
-After one-parameter finite-size scaling has been performed, we can plot the dependence of the sum of squared residuals on ``v_1``. To do this use the `plot_residuals` function, and pass in the array of residuals returned by `fss_one_var`, along with the exact values of `v1i`, `v1f`, and `n1` which were used:
+After one-parameter finite-size scaling has been performed, we can plot the dependence of the sum of squared residuals on ``v_1``. To do this use the [`plot_residuals`](@ref) function, and pass in the array of residuals returned by [`fss_one_var`](@ref), along with the exact values of `v1i`, `v1f`, and `n1` which were used:
 
 ```@julia
-plot_residuals(residuals, v1i=5.0, v1f=7.0, n1=100)
+julia> plot_residuals(residuals, v1i=5.0, v1f=7.0, n1=100)
 ```
 
 ![Residuals plot](residuals_plot.png)
 
 !!! tip
-    When using plotting functions such as `plot_data` or `plot_residuals`, plot attributes such as axes labels, font sizes, marker sizes, colors, and figure dimensions can be easily passed as optional arguments. See the docstrings of each plotting function or the Methods page for full details. 
+    When using plotting functions such as [`plot_data`](@ref) or [`plot_residuals`](@ref), various plot attributes such as axes labels, font sizes, marker sizes, colors, and figure dimensions can be passed as optional arguments. See the docstrings of each plotting function or the [Methods](methods.md) page for full details. 
