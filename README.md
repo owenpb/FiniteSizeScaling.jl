@@ -13,3 +13,8 @@ To install [FiniteSizeScaling.jl](https://github.com/owenpb/FiniteSizeScaling.jl
 ```julia
 ] add https://github.com/owenpb/FiniteSizeScaling.jl
 ```
+
+## Documentation
+
+To get started with using the package, see the latest version of the documentation here:
+[owenpb.github.io/FiniteSizeScaling.jl/dev/](https://owenpb.github.io/FiniteSizeScaling.jl/dev/)
