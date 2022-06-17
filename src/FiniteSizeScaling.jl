@@ -265,11 +265,11 @@ Plots the data (either the unscaled data, or the optimal collapse of scaled data
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
 - `ytickfontsize::Real`: Font size for y-axis ticks.
-- `legend::Symbol`: Position of legend. Can be any legend Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `legend::Symbol`: Position of legend. Can be any legend Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_subplot/).
 - `legendfontsize::Real`: Font size used in legend.
-- `markershape::Symbol`: Shape of markers used in scatter plot. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `markershape::Symbol`: Shape of markers used in scatter plot. Can be any markershape Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
 - `markersize::Real`: Size of markers used in scatter plot.
-- `palette::Symbol`: Color scheme used in scatter plot. Symbol can be any color scheme supported by [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `palette::Symbol`: Color scheme used in scatter plot. Symbol can be any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/).
 - `size::Tuple`: Dimensions of scatter plot drawn.
 """
 function plot_data(data::AbstractArray; xlabel::AbstractString=L"$x$",
@@ -321,11 +321,11 @@ Plots the sum of squared residuals (calculated with `fss_one_var`) as a function
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
 - `ytickfontsize::Real`: Font size for y-axis ticks.
-- `markershape::Symbol`: Shape of markers used in plot. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
-- `markercolor::Symbol`: Color of markers used in plot. Can be markercolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `markershape::Symbol`: Shape of markers used in plot. Can be any markershape Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
+- `markercolor::Symbol`: Color of markers used in plot. Can be markercolor Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
 - `markersize::Real`: Size of markers used in plot.
 - `linewidth::Real`: Width of line used in plot.
-- `linecolor::Symbol`: Color of line used in plot. Symbol can be any linecolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `linecolor::Symbol`: Color of line used in plot. Symbol can be any linecolor Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
 - `size::Tuple`: Dimensions of scatter plot drawn.
 """
 function plot_residuals(residuals::AbstractVector; v1i::Real, v1f::Real, n1::Int, xlabel::AbstractString=L"$v_1$",
@@ -366,10 +366,10 @@ The optimal values of v1 and v2 are indicated on the plot.
 - `yguidefontsize::Real`: Font size for y-axis label.
 - `xtickfontsize::Real`: Font size for x-axis ticks.
 - `ytickfontsize::Real`: Font size for y-axis ticks.
-- `color::Symbol`: Color scheme used in contour plot. Symbol can be any color scheme supported by [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
-- `markershape::Symbol`: Shape of marker used to pinpoint the optimal parameter values. Can be any markershape Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `color::Symbol`: Color scheme used in contour plot. Symbol can be any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/).
+- `markershape::Symbol`: Shape of marker used to pinpoint the optimal parameter values. Can be any markershape Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
 - `markersize::Real`: Size of marker used to pinpoint the optimal parameter values. 
-- `markercolor::Symbol`: Color of marker used to pinpoint the optimal parameter values. Can be any markercolor Symbol defined in [Plots.jl](https://github.com/JuliaPlots/Plots.jl).
+- `markercolor::Symbol`: Color of marker used to pinpoint the optimal parameter values. Can be any markercolor Symbol defined in [Plots.jl](https://docs.juliaplots.org/stable/generated/attributes_series/).
 - `size::Tuple`: Size of contour plot drawn.
 """
 function plot_contour(residuals::AbstractArray; v1i::Real, v1f::Real, n1::Int, v2i::Real, v2f::Real, n2::Int, levels, fill::Bool=true, logspace::Bool=true, xlabel::AbstractString=L"$v_1$",

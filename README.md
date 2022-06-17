@@ -8,7 +8,7 @@
 
 ## Installation
 
-To install [FiniteSizeScaling.jl](https://github.com/owenpb/FiniteSizeScaling.jl), run the following tin the Julia REPL:
+To install [FiniteSizeScaling.jl](https://github.com/owenpb/FiniteSizeScaling.jl), run the following in the Julia REPL:
 
 ```julia
 ] add https://github.com/owenpb/FiniteSizeScaling.jl

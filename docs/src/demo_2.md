@@ -62,7 +62,7 @@ plot_data(scaled_data)
 
 ### Contour plot for two-parameter scaling
 
-When performing two-parameter scaling, it is often useful to produce a contour plot showing how the quality of the data collapse varies in the ``(v1, v2)`` plane. To make this plot, use the function `plot_contour`, passing in the two-dimensional array `residuals` returned by `fss_two_var`. You will also need to pass in the same values of `v1i`, `v1f`, `n1`, `v2i`, `v2f`, and `n2` which were used in `fss_two_var`. You will also need to specify how many contour lines are drawn with the argument `levels`. `levels` can be either an integer or an array of values. If an array of values is specified, only contours corresponding to these values be drawn on the plot. If `levels` is an integer, this sets the total number of contour lines which will be drawn. The values represented by the contour lines can either be equally spaced or logarithmically spaced, which is set by the boolean argument `logspace`. Often logarthmic spacing is best in order to get a reasonable number of contour lines plotted near the minima, and `logspace=true` by default. A solid color fill between contour lines will be drawn if the boolean argument `fill`; by default `fill=true`. 
+When performing two-parameter scaling, it is often useful to produce a contour plot showing how the quality of the data collapse varies in the ``(v_1, v_2)`` plane. To make this plot, use the function `plot_contour`, passing in the two-dimensional array `residuals` returned by `fss_two_var`. You will need to pass in the same values of `v1i`, `v1f`, `n1`, `v2i`, `v2f`, and `n2` which were used in `fss_two_var`. You will also need to specify how many contour lines are drawn using the argument `levels`. `levels` can either be an integer or an array of values. If an array of values is specified, only contour lines at these specific values will be drawn on the plot. If `levels` is an integer, this sets the total number of contour lines which will be drawn. The values represented by the contour lines can either be equally spaced or logarithmically spaced, which is set by the boolean argument `logspace`. Often logarthmic spacing is best in order to get a reasonable number of contour lines plotted near the minima, and `logspace=true` by default. A solid color fill between contour lines will be drawn if the boolean argument `fill=true`, which it is by default. 
 
 ```@julia
 plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=0.0, v2f=1.0, n2=100, levels=30, fill=true, logspace=true, xlabel=L"\beta_c", ylabel=L"2 - \eta") 
@@ -72,7 +72,7 @@ The `plot_contour` function produces a contour plot displaying the sum of square
 
 ![Contour plot 1](contour_plot_1.png)
 
-Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and fontsizes can be customized when calling the function `plot_contour`. For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://github.com/JuliaPlots/Plots.jl). See the docstrings of `plot_contour` or the Methods page for full details. Below is a contour plot of the same residuals data as above, where several of these plot attributes have been modified.
+Note that various plot attributes such as the color scheme used, plot dimensions, marker size, marker color, marker shape, axes labels, and fontsizes can be customized when calling the function `plot_contour`. For example, the `color` argument can be set to any color scheme supported by [Plots.jl](https://docs.juliaplots.org/stable/generated/colorschemes/). See the docstrings of `plot_contour` or the Methods page for full details. Below is a contour plot of the same residuals data as above, where several of these plot attributes have been modified.
 
 ```@julia
 plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, levels=25, fill=true, logspace=true, xlabel=L"\beta_c", ylabel=L"2 - \eta", color=:terrain, markersize=7, markershape=:star5, markercolor=:white, size=(800,300)) 
@@ -82,4 +82,4 @@ plot_contour(residuals, v1i=5.0, v1f=7.0, n1=100, v2i=1.0, v2f=2.0, n2=100, leve
 
 
 !!! tip
-    To use LaTeX when specifying axes labels, you can use a LaTeXString e.g. `L"\beta_c"`. To use the [LaTeXStrings.jl](https://github.com/stevengj/LaTeXStrings.jl) package, simply enter `using LaTeXStrings`.
+    To use ``\LaTeX`` when specifying axes labels, you can use a LaTeXString e.g. `L"\beta_c"`. To use the [LaTeXStrings.jl](https://github.com/stevengj/LaTeXStrings.jl) package, simply enter `using LaTeXStrings`.
