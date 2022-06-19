@@ -20,7 +20,7 @@ y_scaled(Y, L, v1, v2) = Y * (L^(-1 * v2))
 
 The functions defining the ``X_s`` axis should take ``X``, ``L``, ``v_1``, and ``v_2`` as arguments, while the function defining the scaled ``Y_s`` axis should take ``Y``, ``L``, ``v_1``, and ``v_2`` as arguments. Note that since ``X`` and ``Y`` are arrays, elementwise operators such as ``.-`` may be necessary.
 
-To determine the best value of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``.  To determine the best value of ``v_2``, a search is performed between an initial value ``v_{2i}`` and a final value ``v_{2f}``. The finite-size scaling method works in the same way as for one-parameter scaling, except now the method finds the *pair* of ``v_1`` and ``v_2`` values which yield the minimal overall residual. As in [Demo 1](demo_1.md), we will use inverse variance weights to perform weighted least squares. 
+To determine the best value of ``v_1``, a search is performed between an initial value ``v_{1i}`` and a final value ``v_{1f}``.  To determine the best value of ``v_2``, a search is performed between an initial value ``v_{2i}`` and a final value ``v_{2f}``. The finite-size scaling method works in the same way as for one-parameter scaling, except now the method finds the *pair* of ``v_1`` and ``v_2`` values which yield the minimal overall residual. As in [Demo 1](demo_1.md), we will use inverse variance weights to perform weighted least-squares. 
 
 ```@julia
 fit_weights = [1 ./ (E_L4.^2), 1 ./ (E_L6.^2), 1 ./ (E_L8.^2), 1 ./ (E_L10.^2), 1 ./ (E_L12.^2)]
