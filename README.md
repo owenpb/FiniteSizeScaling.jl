@@ -17,4 +17,4 @@ To install [FiniteSizeScaling.jl](https://github.com/owenpb/FiniteSizeScaling.jl
 ## Documentation
 
 To get started with using the package, see the latest version of the documentation here:
-[owenpb.github.io/FiniteSizeScaling.jl/dev/](https://owenpb.github.io/FiniteSizeScaling.jl/dev/)
+[owenpb.github.io/FiniteSizeScaling.jl/stable/](https://owenpb.github.io/FiniteSizeScaling.jl/stable/)
