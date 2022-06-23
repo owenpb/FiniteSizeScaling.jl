@@ -1,7 +1,7 @@
 name = "FiniteSizeScaling"
 uuid = "fd16a862-e713-4e98-8e8f-513553425ee0"
 authors = ["Owen Bradley"]
-version = "0.1.0"
+version = "1.0.0"
 
 [deps]
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
